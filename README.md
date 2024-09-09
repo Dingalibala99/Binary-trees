@@ -136,8 +136,7 @@ This is the ascending order traversal of the BST.
 Binary Search Tree (BST): A tree where the left child is smaller and the right child is greater than the parent.
 Insert Function: Adds nodes to the correct location based on the BST rules.
 In-Order Traversal: Visits nodes in ascending order by recursively visiting the left subtree, the current node, and then the right subtree.
-I'll now create a diagram to visualize this tree traversal.
+The diagram showing how to visualize the tree traversal is found the img folder.
 
 
-
-Here’s a visual representation of the binary search tree we discussed, showing how the nodes are arranged and connected. It highlights the structure of the tree and the traversal paths. You can see how nodes like 16, 3, 22, and 37 are set up on the left side of the root (23), while nodes 45 and 99 are on the right.
+You can see how nodes like 16, 3, 22, and 37 are set up on the left side of the root (23), while nodes 45 and 99 are on the right.
