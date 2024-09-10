@@ -1,142 +1,151 @@
-# Binary-trees
+Binary Search Trees (BST) - Lecture 1
+What is a Binary Tree?
+A binary tree is a hierarchical data structure where each node has at most two children, typically referred to as the left child and right child. The node at the top of the hierarchy is called the root.
 
-Lecture: Introduction to Binary Search Trees (BST)
-1. What is a Binary Tree?
-A binary tree is a hierarchical data structure in which each node has at most two children:
+Binary trees are useful for various tasks, such as:
 
-Left child
-Right child
-In a binary search tree (BST), the following properties are maintained:
+Heaps - Keeping things in a specific order as you add them.
+Tries - Efficiently storing words for quick lookups.
+HTML Trees - Representing HTML structure in a tree form, where each HTML tag is a node.
+Here’s an HTML tree as an example:
 
-Left subtree contains nodes with values less than the root node.
-Right subtree contains nodes with values greater than the root node.
-Both left and right subtrees are themselves BSTs.
-2. Properties of a Binary Search Tree
-Each node can have 0, 1, or 2 children.
-All left child nodes must be smaller than the parent node.
-All right child nodes must be larger than the parent node.
-This property makes searching faster because, at each step, we can decide whether to move left or right based on the value we're looking for.
-3. Diagram of a Binary Search Tree
-Below is a diagram that shows how a binary search tree is built step by step:
+HTML
 
-                23
-               /  \
-             16    45
-            /  \     \
-           3   22    99
-In this tree:
+<div>
+  /     \
+<h1>    <p>
+Types of Tree Traversal
+Tree traversal is the process of visiting each node in a specific order. There are three common traversal methods:
 
-Root node (23): The top-most node.
-Left subtree: Contains 16, 3, and 22 (all smaller than 23).
-Right subtree: Contains 45 and 99 (both greater than 23).
-Now, let's discuss how this tree is constructed programmatically.
+In-order Traversal: This gives you the nodes in ascending order: left, root, right.
+Post-order Traversal: Here, you visit the nodes in the order: left, right, root. It's commonly used to delete a tree from the leaves to the root.
+Pre-order Traversal: This visits nodes in the order: root, left, right. It's often used to create a copy of a tree.
+Example of a Binary Search Tree (BST)
+Let's consider the following values that need to be added to a tree:
 
-4. Code Explanation
-Let’s go through the code you provided, line by line, to see how it builds and traverses a binary search tree.
+[23, 16, 45, 3, 22, 99, 40]
+We can represent this in a tree structure:
 
-Node Definition
+                       23
+                    /      \
+                 16          45
+               /   \       /    \
+             3      22   40      99
+Code Breakdown
+Now, let's break down the provided code step by step to understand how the Binary Search Tree (BST) is built and traversed.
 
-function Node(data, left, right) {
-    this.data = data;
-    this.left = left;
-    this.right = right;
-    this.show = show;
+1. Node Class
+This class defines the structure of a node, the building block of a binary tree.
+
+class Node {
+    constructor(data, left, right) {
+        this.data = data;  // The value stored in the node
+        this.left = left;  // Pointer to the left child
+        this.right = right;  // Pointer to the right child
+        this.show = show;  // Method to display node's data
+    }
 }
-This is the constructor function for creating a node in the tree.
-data: Holds the value of the node.
-left and right: These hold references to the left and right child nodes, respectively.
-this.show = show: Each node has a method show() to return its data.
+data: The value inside the node (e.g., 23, 16).
+left: Pointer to the left child (nodes with smaller values).
+right: Pointer to the right child (nodes with larger values).
+show(): This method returns the data when called.
+2. Show Function
+This function simply returns the data value from the node.
 
 function show() {
-    return this.data;
+  return this.data;
 }
-The show() function simply returns the value of the node (this.data).
-Binary Search Tree (BST) Definition
-javascript
-Copy code
-function BTS() {
-    this.root = null;  // The tree starts with an empty root.
-    this.insert = insert;  // Attaching the 'insert' function to add nodes.
-    this.inOrder = inOrder;  // Attaching the 'inOrder' function for traversal.
+3. BTS (Binary Tree Structure) Class
+This class represents the entire binary search tree.
+
+class BTS {
+    constructor() {
+        this.root = null;  // The root node of the tree
+        this.insert = insert;  // Method to insert data into the tree
+        this.inOrder = inOrder;  // Method for in-order traversal
+    }
 }
-this.root = null: Initially, the tree is empty, so the root is null.
-insert function: This is used to add values to the tree.
-inOrder function: This allows us to traverse the tree in a specific order.
-Insert Function
+root: Initially, the root is set to null (the tree is empty).
+insert(): This method inserts new nodes into the tree.
+inOrder(): This method performs an in-order traversal to display nodes in ascending order.
+4. Insert Method
+The insert() method adds a new value to the tree in the correct position.
 
-function insert(data) {
-    let val = new Node(data, null, null);  // Create a new node with the given data.
-    
-    if (this.root == null) {
-        this.root = val;  // If the tree is empty, the new node becomes the root.
-    } else {
-        let currentVal = this.root;  // Start at the root of the tree.
-        let parent;
+class insert {
+    constructor(data) {
+        let val = new Node(data, null, null);  // Create a new node
 
-        while (currentVal != null) {  // Traverse the tree to find the correct position.
-            parent = currentVal;
+        if (this.root == null) {  // If the tree is empty, set the root to the new node
+            this.root = val; 
+        } else {  // Otherwise, find the correct position
+            let currentVal = this.root;
+            let parent;
 
-            if (data < currentVal.data) {  // If data is smaller, move to the left.
-                currentVal = currentVal.left;
-                if (currentVal == null) {
-                    parent.left = val;  // Insert the new node on the left.
-                }
-            } else {  // If data is larger, move to the right.
-                currentVal = currentVal.right;
-                if (currentVal == null) {
-                    parent.right = val;  // Insert the new node on the right.
+            while (currentVal != null) {  // Traverse the tree to find the spot
+                parent = currentVal;
+                if (data < currentVal.data) {  // Go to the left if the new data is smaller
+                    currentVal = currentVal.left;
+                    if (currentVal == null) {  // Insert the node when an empty spot is found
+                        parent.left = val;
+                        break;
+                    }
+                } else {  // Otherwise, go to the right
+                    currentVal = currentVal.right;
+                    if (currentVal == null) {  // Insert the node when an empty spot is found
+                        parent.right = val;
+                        break;
+                    }
                 }
             }
         }
     }
 }
-let val = new Node(data, null, null);: A new node is created with the given data and both its left and right child nodes set to null.
-If the tree is empty (this.root == null), the new node becomes the root.
-Otherwise, the function will traverse the tree starting at the root, following the rules of a BST (move left for smaller values, right for larger).
-Once the correct spot is found (either the left or right child is null), the new node is inserted.
-In-Order Traversal
-javascript
-Copy code
+This method works by:
+
+Creating a new node with the given data.
+If the tree is empty, the new node becomes the root.
+If not, it traverses the tree:
+If the data is less than the current node, it moves to the left.
+If the data is greater, it moves to the right.
+Once a null pointer (an empty child) is found, it inserts the new node.
+5. In-order Traversal
+The inOrder() function recursively visits nodes in ascending order: left, root, right.
+
 function inOrder(node) {
-    if (node != null) {  // As long as the node exists
-        inOrder(node.left);  // First, traverse the left subtree.
-        console.log(node.show() + " ");  // Then, process the current node (print its value).
-        inOrder(node.right);  // Finally, traverse the right subtree.
-    }
+  if (node != null) {
+    inOrder(node.left);  // Visit the left subtree
+    console.log(node.show() + " ");  // Visit the root (current node)
+    inOrder(node.right);  // Visit the right subtree
+  }
 }
-In-order traversal follows the sequence: left subtree → current node → right subtree.
-This traversal method will print the nodes in ascending order for a BST.
-5. Example Execution
-Let's see how the tree is built step-by-step:
+This function ensures that:
 
-Insert 23: Since the tree is empty, 23 becomes the root.
-Insert 45: Since 45 > 23, it goes to the right of 23.
-Insert 16: Since 16 < 23, it goes to the left of 23.
-Insert 37: 37 > 23, so it moves right, but 37 < 45, so it goes left of 45.
-Insert 3: 3 < 23, then 3 < 16, so it goes to the left of 16.
-Insert 99: 99 > 23, then 99 > 45, so it goes to the right of 45.
-Insert 22: 22 < 23, then 22 > 16, so it goes to the right of 16.
-The final tree looks like this:
+It recursively goes down the left subtree first.
+Then it prints the root (current node).
+Finally, it traverses the right subtree.
+6. Using the Code
+Now, let’s see how to use the classes and functions.
 
+let nums = new BTS()
 
-                23
-               /  \
-             16    45
-            /  \     \
-           3   22    99
-                \
-                 37
-6. In-Order Traversal Output
-Running inOrder(nums.root) will print the nodes in the following order:
+nums.insert(23); // Root node
+nums.insert(16); // Inserted to the left of 23
+nums.insert(45); // Inserted to the right of 23
+nums.insert(3);  // Inserted to the left of 16
+nums.insert(22); // Inserted to the right of 16
+nums.insert(99); // Inserted to the right of 45
+nums.insert(40); // Inserted to the left of 45
 
-3, 16, 22, 23, 37, 45, 99
-This is the ascending order traversal of the BST.
+console.log("In order traversal......")
+console.log(nums.root)
+inOrder(nums.root)  // Perform an in-order traversal
+What happens here:
+Inserting values: The insert() method inserts the values into the correct positions in the tree.
+In-order Traversal: The inOrder() function prints the values in ascending order: 3, 16, 22, 23, 40, 45, 99.
 
-7. Summary
-Binary Search Tree (BST): A tree where the left child is smaller and the right child is greater than the parent.
-Insert Function: Adds nodes to the correct location based on the BST rules.
-In-Order Traversal: Visits nodes in ascending order by recursively visiting the left subtree, the current node, and then the right subtree.
-The diagram showing how to visualize the tree traversal is found the img folder.
+The code defines a Binary Search Tree (BST) that allows for adding nodes and performing in-order traversal. The BST structure helps maintain the data in a way that supports fast lookups, inserts, and ordered traversal.
 
-
-You can see how nodes like 16, 3, 22, and 37 are set up on the left side of the root (23), while nodes 45 and 99 are on the right.
+Key Takeaways:
+BST Properties: Left child is always smaller, right child is always larger.
+Insert: Adds nodes in the correct position based on value comparison.
+In-order Traversal: Prints nodes in ascending order.
