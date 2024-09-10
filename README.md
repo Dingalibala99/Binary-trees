@@ -11,10 +11,12 @@ Tries: Storing words efficiently for quick lookups.
 HTML Trees: Representing the structure of an HTML document.
 Example of an HTML Tree
 
+~~~
    <div>
   /     \
 <h1>    <p>
-  
+~~~
+
 Types of Tree Traversal
 Tree traversal refers to visiting each node in a specific order. The three main types of traversal are:
 
