@@ -39,133 +39,108 @@ These values can be represented in a binary search tree like this:
              
 Code Explanation
 We will now break down the code step by step to understand how the Binary Search Tree (BST) is built and traversed.
-
-Node Class
-The Node class defines the structure of a node in the binary tree.
-
 ~~~
 class Node {
-    constructor(data, left, right) {
-        this.data = data;  // The value stored in the node
-        this.left = left;  // Pointer to the left child
-        this.right = right;  // Pointer to the right child
-        this.show = show;  // Method to display node's data
+    constructor(data, left = null, right = null) {
+      this.data = data;
+      this.left = left;
+      this.right = right;
     }
-}
-~~~
-
-data: The value inside the node (e.g., 23, 16).
-left: Pointer to the left child (nodes with smaller values).
-right: Pointer to the right child (nodes with larger values).
-show(): Returns the node's data when called.
-Show Function
-This function is used to return the data stored in a node.
-
-~~~
-function show() {
-  return this.data;
-}
-~~~
-
-BTS (Binary Tree Structure) Class
-This class represents the entire binary search tree.
-
-~~~
-class BTS {
-    constructor() {
-        this.root = null;  // The root node of the tree
-        this.insert = insert;  // Method to insert data into the tree
-        this.inOrder = inOrder;  // Method for in-order traversal
+  
+    show() {
+      return this.data;
     }
-}
-~~~
-
-root: Initially set to null, meaning the tree is empty.
-insert(): Method to add nodes to the tree.
-inOrder(): Method to perform in-order traversal and print the nodes in ascending order.
-Insert Method
-The insert() method adds a new value into the tree.
-
-~~~
-class insert {
-    constructor(data) {
-        let val = new Node(data, null, null);  // Create a new node
-
-        if (this.root == null) {  // If the tree is empty, set the root to the new node
-            this.root = val; 
-        } else {  // Otherwise, find the correct position for the new node
-            let currentVal = this.root;
-            let parent;
-
-            while (currentVal != null) {  // Traverse the tree to find the correct spot
-                parent = currentVal;
-                if (data < currentVal.data) {  // Go to the left if the new data is smaller
-                    currentVal = currentVal.left;
-                    if (currentVal == null) {  // Insert the node at the left
-                        parent.left = val;
-                        break;
-                    }
-                } else {  // Go to the right if the new data is larger
-                    currentVal = currentVal.right;
-                    if (currentVal == null) {  // Insert the node at the right
-                        parent.right = val;
-                        break;
-                    }
-                }
-            }
-        }
-    }
-}
-~~~
-
-Key Points:
-Inserting a new node:
-If the tree is empty, the new node becomes the root.
-The algorithm compares the new node's value with existing nodes and traverses the tree to the left or right.
-The node is inserted in the correct position based on the comparison.
-In-order Traversal Method
-The inOrder() function traverses the tree in ascending order (left, root, right).
-
-~~~
-function inOrder(node) {
-  if (node != null) {
-    inOrder(node.left);  // Visit the left subtree
-    console.log(node.show() + " ");  // Visit the root (current node)
-    inOrder(node.right);  // Visit the right subtree
   }
-}
+  
+  class BTS {
+    constructor() {
+      this.root = null;
+    }
+  
+    insert(data) {
+      let node = new Node(data); // Create a new node    
+// Explanation: This line creates a new instance of the Node class, which stores the data value that is to be inserted into the 
+// Binary Search Tree (BST). The node will have two properties: left and right, both initially set to null. These will be used to 
+// point to the left and right children of the node once inserted.
+  
+      if (this.root == null) {
+        this.root = node;
+// Explanation: This checks if the root of the tree is null, meaning the tree is currently empty. If it is, the newly created node 
+// will become the root of the tree. This is the starting point of the BST. In this case, the insertion is complete because the 
+// root node is the only node in the tree.
+
+      } else {
+        let currentNode = this.root;
+        let parent;
+// Explanation: If the tree is not empty, this block of code initializes two variables:
+// currentNode: Used to traverse the tree, starting from the root.
+// parent: Used to track the parent of the current node during the traversal so that the new node can be correctly inserted once 
+// the appropriate spot is found.
+
+  
+        while (currentNode != null) {
+          parent = currentNode;
+// Explanation: The while loop is used to traverse the tree. It continues as long as currentNode is not null, meaning we haven't 
+// reached a null pointer, which indicates a position where we can insert the new node. The parent is updated to the currentNode 
+// in each iteration, storing the node that we're currently examining.
+
+          if (data < currentNode.data) {
+            currentNode = currentNode.left;
+// Explanation: This block checks if the value to be inserted (data) is less than the value of the current node (currentNode.data).
+// If it is smaller, we need to move to the left child of the current node, as per the Binary Search Tree rule that all values 
+// smaller than the current node go to the left subtree.
+
+            if (currentNode == null) {
+              parent.left = node;
+              break;
+            }
+// Explanation: After moving left, if currentNode becomes null, it means we have found the correct position to insert the new node.
+// Since there is no node at the left, the new node is assigned as the left child of the parent node. The break statement exits 
+// the loop after the insertion is completed.
+
+          } else {
+            currentNode = currentNode.right;
+// Explanation: If the value to be inserted (data) is greater than or equal to the current node's value, we move to the right child
+// of the current node, following the Binary Search Tree rule that all values greater than the current node go to the right subtree.
+
+            if (currentNode == null) {
+              parent.right = node;
+              break;
+            }
+// Explanation: After moving to the right, if currentNode becomes null, we have found an empty spot, and the new node can be 
+// inserted as the right child of the parent node. Again, the loop breaks after insertion.
+
+
+          }
+        }
+      }
+    }
+  
+    inOrder(node) {
+      if (node != null) {
+        this.inOrder(node.left);
+        console.log(node.show() + " ");
+        this.inOrder(node.right);
+      }
+    }
+    preOrder(node) {
+      if (node != null) {
+        this.preOrder(node.root);
+        console.log(node.show() + " ");
+        this.preOrder(node.left);
+        this.preOrder(node.right);
+      }
+    }
+    postOrder(node) {
+      if (node != null) {
+        this.postOrder(node.left);
+        this.postOrder(node.right);
+        console.log(node.show() + " ");
+        this.postOrder(node.root);
+      }
+    }
+  }
 ~~~
-
-Key Points:
-The function is recursive:
-It first traverses the left subtree.
-Then it visits the current node (root).
-Finally, it traverses the right subtree.
-This results in the nodes being printed in ascending order.
-Example Usage
-Now, let's see how to use these classes and functions to create and traverse a BST.
-
-~~~
-let nums = new BTS()
-
-nums.insert(23); // Root node
-nums.insert(16); // Left of 23
-nums.insert(45); // Right of 23
-nums.insert(3);  // Left of 16
-nums.insert(22); // Right of 16
-nums.insert(99); // Right of 45
-nums.insert(40); // Left of 45
-
-console.log("In order traversal......")
-console.log(nums.root)  // Displays the root of the tree
-inOrder(nums.root)  // Performs in-order traversal
-~~~
-
-Expected Output
-After inserting the values and performing an in-order traversal, the output will be:
-
-3 16 22 23 40 45 99
-Summary
 This Binary Search Tree (BST) code provides:
 
 A way to insert new nodes into the tree, maintaining a sorted structure.
